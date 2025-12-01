@@ -17,6 +17,7 @@
 **Modo Multi-Primary**: Todos los nodos pueden leer y escribir simultáneamente.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph LR
     subgraph "Internet/Usuarios"
         U[👤 Usuarios]
@@ -60,12 +61,12 @@ graph LR
     M2 <-->|Group Replication<br/>Port 33061| M3
     M3 <-->|Group Replication<br/>Port 33061| M1
     
-    style M1 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style M2 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style M3 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style ROUTER fill:#FFA726,stroke:#E65100,stroke-width:3px,color:#FFF3E0
-    style MON fill:#EF5350,stroke:#C62828,stroke-width:3px,color:#FFEBEE
-    style WEB fill:#42A5F5,stroke:#1565C0,stroke-width:2px,color:#E3F2FD
+    style M1 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style M2 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style M3 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style ROUTER fill:#d29922,stroke:#d29922,stroke-width:3px,color:#ffffff
+    style MON fill:#da3633,stroke:#f85149,stroke-width:3px,color:#ffffff
+    style WEB fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff
 ```
 
 ---
@@ -75,6 +76,7 @@ graph LR
 ### Stack Tecnológico
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph TB
     subgraph "Docker Containers"
         subgraph "Web Service"
@@ -123,17 +125,18 @@ graph TB
     MONITOR -.->|Monitor Always| M2C
     MONITOR -.->|Monitor Always| M3C
     
-    style W fill:#61DAFB
-    style R fill:#FFD700
-    style M1C fill:#90EE90
-    style M2C fill:#87CEEB
-    style M3C fill:#87CEEB
-    style MONITOR fill:#FF6B6B
+    style W fill:#1f6feb,stroke:#388bfd,color:#ffffff
+    style R fill:#d29922,stroke:#d29922,color:#ffffff
+    style M1C fill:#238636,stroke:#2ea043,color:#ffffff
+    style M2C fill:#238636,stroke:#2ea043,color:#ffffff
+    style M3C fill:#238636,stroke:#2ea043,color:#ffffff
+    style MONITOR fill:#da3633,stroke:#f85149,color:#ffffff
 ```
 
 ### Dependencias de Servicios
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph TD
     START([docker-compose up])
     
@@ -163,10 +166,10 @@ graph TD
     
     MONITOR -.->|Continuous| WATCH[Monitoring Loop<br/>Every 10s]
     
-    style SETUP fill:#FFA07A
-    style MONITOR fill:#FF6B6B
-    style ROUTER fill:#FFD700
-    style WEB fill:#61DAFB
+    style SETUP fill:#d29922,stroke:#d29922,color:#ffffff
+    style MONITOR fill:#da3633,stroke:#f85149,color:#ffffff
+    style ROUTER fill:#d29922,stroke:#d29922,color:#ffffff
+    style WEB fill:#1f6feb,stroke:#388bfd,color:#ffffff
 ```
 
 ---
@@ -176,6 +179,7 @@ graph TD
 ### Group Replication - Single Primary Mode
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph TB
     subgraph "MySQL InnoDB Cluster: myCluster"
         subgraph "PRIMARY Node"
@@ -208,18 +212,19 @@ graph TB
     M2 --> METADATA
     M3 --> METADATA
     
-    style M1 fill:#90EE90,stroke:#2d5016,stroke-width:4px
-    style M2 fill:#87CEEB,stroke:#16425B,stroke-width:2px
-    style M3 fill:#87CEEB,stroke:#16425B,stroke-width:2px
-    style M1STATUS fill:#98FB98
-    style M2STATUS fill:#ADD8E6
-    style M3STATUS fill:#ADD8E6
-    style METADATA fill:#FFE4B5
+    style M1 fill:#238636,stroke:#2ea043,stroke-width:4px,color:#ffffff
+    style M2 fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff
+    style M3 fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff
+    style M1STATUS fill:#238636,color:#ffffff
+    style M2STATUS fill:#1f6feb,color:#ffffff
+    style M3STATUS fill:#1f6feb,color:#ffffff
+    style METADATA fill:#d29922,color:#ffffff
 ```
 
 ### Configuración de Group Replication
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph LR
     subgraph "Group Replication Configuration"
         CONFIG[Group Configuration]
@@ -236,9 +241,9 @@ graph LR
         CONFIG --> CONS[Consistency: EVENTUAL]
     end
     
-    style MODE fill:#90EE90
-    style REJOIN fill:#FFD700
-    style EXPEL fill:#FFA07A
+    style MODE fill:#238636,color:#ffffff
+    style REJOIN fill:#d29922,color:#ffffff
+    style EXPEL fill:#da3633,color:#ffffff
 ```
 
 ---
@@ -248,6 +253,7 @@ graph LR
 ### Flujo de Escritura (INSERT/UPDATE/DELETE)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 sequenceDiagram
     participant User as 👤 Usuario
     participant Web as Web App
@@ -276,6 +282,7 @@ sequenceDiagram
 ### Flujo de Lectura (SELECT)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 sequenceDiagram
     participant User as 👤 Usuario
     participant Web as Web App
@@ -307,6 +314,7 @@ sequenceDiagram
 ### Failover Automático cuando PRIMARY cae
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 sequenceDiagram
     participant Router as MySQL Router
     participant M1 as MySQL 1<br/>PRIMARY ❌
@@ -360,6 +368,7 @@ sequenceDiagram
 ### Escenario: Solo 1 Nodo Disponible
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 flowchart TD
     START([Todos los nodos caen])
     
@@ -395,10 +404,10 @@ flowchart TD
     
     UPDATE --> READY[✅ Sistema funcional<br/>con 1 nodo]
     
-    style START fill:#FF6B6B
-    style ALLDOWN fill:#FFB6C1
-    style READY fill:#90EE90
-    style OPERATE fill:#98FB98
+    style START fill:#da3633,color:#ffffff
+    style ALLDOWN fill:#da3633,color:#ffffff
+    style READY fill:#238636,color:#ffffff
+    style OPERATE fill:#238636,color:#ffffff
 ```
 
 ---
@@ -408,6 +417,7 @@ flowchart TD
 ### Ciclo de Monitoreo Continuo
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 flowchart TD
     INIT([Monitor Inicia])
     
@@ -460,16 +470,17 @@ flowchart TD
     SLEEP1 --> LOOP
     SLEEP2 --> LOOP
     
-    style INIT fill:#61DAFB
-    style RECOVER fill:#FFA07A
-    style SINGLE fill:#FFD700
-    style UPDATEROUTER fill:#FFB6C1
-    style HEAL fill:#90EE90
+    style INIT fill:#1f6feb,color:#ffffff
+    style RECOVER fill:#da3633,color:#ffffff
+    style SINGLE fill:#d29922,color:#ffffff
+    style UPDATEROUTER fill:#d29922,color:#ffffff
+    style HEAL fill:#238636,color:#ffffff
 ```
 
 ### Funciones de Auto-Recovery
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph TB
     subgraph "cluster-monitor.py"
         MAIN[checkAndHealCluster<br/>Función Principal]
@@ -489,9 +500,9 @@ graph TB
         F6 --> F6A[Actualizar<br/>state.json del Router]
     end
     
-    style MAIN fill:#FF6B6B,stroke:#8B0000,stroke-width:3px
-    style F1 fill:#FFA07A
-    style F6 fill:#FFD700
+    style MAIN fill:#da3633,stroke:#f85149,stroke-width:3px,color:#ffffff
+    style F1 fill:#d29922,color:#ffffff
+    style F6 fill:#1f6feb,color:#ffffff
 ```
 
 ---
@@ -501,6 +512,7 @@ graph TB
 ### Posibles Estados
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 stateDiagram-v2
     [*] --> OFFLINE: Cluster no iniciado
     
@@ -563,6 +575,7 @@ stateDiagram-v2
 ## Resumen de Puertos
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph LR
     subgraph "Puertos Externos"
         P8091[8091<br/>HTTP Web App]
@@ -584,10 +597,10 @@ graph LR
     M1 -.->|Usa| P33060
     M1 -.->|Usa GR| P33061
     
-    style P8091 fill:#61DAFB
-    style P6446 fill:#90EE90
-    style P6447 fill:#87CEEB
-    style P33061 fill:#FFD700
+    style P8091 fill:#1f6feb,color:#ffffff
+    style P6446 fill:#238636,color:#ffffff
+    style P6447 fill:#1f6feb,color:#ffffff
+    style P33061 fill:#d29922,color:#ffffff
 ```
 
 ---

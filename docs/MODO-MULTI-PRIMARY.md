@@ -7,6 +7,7 @@ El cluster MySQL ahora está configurado en **Multi-Primary Mode**, lo que signi
 ### ✅ TODOS los nodos pueden LEER y ESCRIBIR
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph LR
     APP[Aplicación Web]
     ROUTER[MySQL Router]
@@ -27,11 +28,11 @@ graph LR
     M2 <--> M3
     M3 <--> M1
     
-    style M1 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style M2 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style M3 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#E8F5E9
-    style ROUTER fill:#FFA726,stroke:#E65100,stroke-width:3px,color:#FFF3E0
-    style APP fill:#42A5F5,stroke:#1565C0,stroke-width:2px,color:#E3F2FD
+    style M1 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style M2 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style M3 fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    style ROUTER fill:#d29922,stroke:#d29922,stroke-width:3px,color:#ffffff
+    style APP fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff
 ```
 
 ---
@@ -87,6 +88,7 @@ graph LR
 ### Escrituras Simultáneas
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 sequenceDiagram
     participant App1 as App Request 1
     participant M1 as MySQL 1
@@ -126,6 +128,7 @@ MySQL Group Replication maneja automáticamente conflictos usando:
 #### Ejemplo de Conflicto
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 sequenceDiagram
     participant A1 as App 1
     participant M1 as MySQL 1

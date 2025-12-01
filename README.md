@@ -1,5 +1,10 @@
 # Sistema de Gestión de Sobretiempos con MySQL InnoDB Cluster
 
+![MySQL](https://img.shields.io/badge/mysql-8.0-00758f?style=for-the-badge&logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+![Status](https://img.shields.io/badge/status-active-success.svg?style=for-the-badge)
+
 ## 📋 Índice de Documentación
 
 > **Documentación Completa del Sistema de Alta Disponibilidad**
@@ -48,7 +53,7 @@ Sistema empresarial de **Gestión de Sobretiempos (Horas Extras)** con **Alta Di
 - **Monitoreo y Auto-Recovery** (Recuperación automática sin intervención humana)
 
 ```mermaid
-%%{init: {'theme':'dark', 'themeVariables': {'primaryColor':'#4CAF50','primaryTextColor':'#E8F5E9','primaryBorderColor':'#2E7D32','lineColor':'#FFA726','secondaryColor':'#42A5F5','tertiaryColor':'#EF5350','background':'#1E1E1E','mainBkg':'#2D2D2D','secondBkg':'#3D3D3D','tertiaryBkg':'#424242','textColor':'#E0E0E0','fontSize':'16px'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0d1117', 'primaryTextColor': '#c9d1d9', 'primaryBorderColor': '#30363d', 'lineColor': '#58a6ff', 'secondaryColor': '#161b22', 'tertiaryColor': '#161b22', 'mainBkg': '#0d1117', 'nodeBorder': '#30363d', 'clusterBkg': '#161b22', 'clusterBorder': '#30363d', 'defaultLinkColor': '#58a6ff', 'fontFamily': 'arial', 'fontSize': '16px'}}}%%
 graph TB
     subgraph usuarios["<br/>👥 Usuarios<br/><br/>"]
         U1["👤 Usuario Web"]
@@ -81,10 +86,10 @@ graph TB
     M2 <-->|Group<br/>Replication| M3
     M3 <-->|Group<br/>Replication| M1
     
-    classDef primaryNode fill:#4CAF50,stroke:#66BB6A,stroke-width:3px,color:#E8F5E9
-    classDef routerNode fill:#FFA726,stroke:#FFB74D,stroke-width:3px,color:#FFF3E0
-    classDef monitorNode fill:#EF5350,stroke:#EF5350,stroke-width:3px,color:#FFEBEE
-    classDef webNode fill:#42A5F5,stroke:#64B5F6,stroke-width:2px,color:#E3F2FD
+    classDef primaryNode fill:#238636,stroke:#2ea043,stroke-width:3px,color:#ffffff
+    classDef routerNode fill:#d29922,stroke:#d29922,stroke-width:3px,color:#ffffff
+    classDef monitorNode fill:#da3633,stroke:#f85149,stroke-width:3px,color:#ffffff
+    classDef webNode fill:#1f6feb,stroke:#388bfd,stroke-width:2px,color:#ffffff
     
     class M1,M2,M3 primaryNode
     class ROUTER routerNode
@@ -164,6 +169,7 @@ Docker/
 │   ├── init-cluster.js         # Inicialización del cluster
 │   ├── configure-policies.js   # Configuración de políticas
 │   ├── cluster-monitor.py      # Monitor de auto-recovery (Python)
+│   ├── cluster-monitor.js      # Monitor legacy (JS)
 │   ├── init-db-schema.sql      # Esquema de base de datos
 │   ├── insert-sample-data.sql  # Datos de ejemplo
 │   └── insert-additional-data.sql
@@ -173,6 +179,10 @@ Docker/
         ├── index.php           # Aplicación principal
         ├── styles.css          # Estilos
         └── sections/           # Módulos de la aplicación
+            ├── asistencias.php
+            ├── dashboard.php
+            ├── empleados.php
+            └── reportes.php
 ```
 
 ---
