@@ -1,0 +1,264 @@
+services:
+  # ------------------------------
+  # MySQL InnoDB Cluster (3 nodos)
+  # ------------------------------
+  mysql1:
+    image: mysql:8.0
+    container_name: mysql1
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_ROOT_HOST: "%"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --log-bin=mysql-bin
+      - --binlog-format=ROW
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+      - --binlog-checksum=NONE
+      - --server-id=1
+      - --report-host=mysql1
+      - --loose-group_replication_start_on_boot=OFF
+      - --loose-group_replication_bootstrap_group=OFF
+      - --loose-group_replication_single_primary_mode=OFF
+      - --loose-group_replication_enforce_update_everywhere_checks=ON
+      - --loose-group_replication_exit_state_action=READ_ONLY
+      - --loose-group_replication_member_expel_timeout=3600
+      - --loose-group_replication_autorejoin_tries=2016
+      - --loose-group_replication_local_address=mysql1:33061
+      - --loose-group_replication_group_seeds=mysql1:33061,mysql2:33061,mysql3:33061
+      - --max-connections=500
+    volumes:
+      - mysql1-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p1234 --silent" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend
+    restart: unless-stopped
+
+  mysql2:
+    image: mysql:8.0
+    container_name: mysql2
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_ROOT_HOST: "%"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --log-bin=mysql-bin
+      - --binlog-format=ROW
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+      - --binlog-checksum=NONE
+      - --server-id=2
+      - --report-host=mysql2
+      - --loose-group_replication_start_on_boot=OFF
+      - --loose-group_replication_bootstrap_group=OFF
+      - --loose-group_replication_single_primary_mode=OFF
+      - --loose-group_replication_enforce_update_everywhere_checks=ON
+      - --loose-group_replication_exit_state_action=READ_ONLY
+      - --loose-group_replication_member_expel_timeout=3600
+      - --loose-group_replication_autorejoin_tries=2016
+      - --loose-group_replication_local_address=mysql2:33061
+      - --loose-group_replication_group_seeds=mysql1:33061,mysql2:33061,mysql3:33061
+      - --max-connections=500
+    volumes:
+      - mysql2-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p1234 --silent" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend
+    restart: unless-stopped
+
+  mysql3:
+    image: mysql:8.0
+    container_name: mysql3
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_ROOT_HOST: "%"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --log-bin=mysql-bin
+      - --binlog-format=ROW
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+      - --binlog-checksum=NONE
+      - --server-id=3
+      - --report-host=mysql3
+      - --loose-group_replication_start_on_boot=OFF
+      - --loose-group_replication_bootstrap_group=OFF
+      - --loose-group_replication_single_primary_mode=OFF
+      - --loose-group_replication_enforce_update_everywhere_checks=ON
+      - --loose-group_replication_exit_state_action=READ_ONLY
+      - --loose-group_replication_member_expel_timeout=3600
+      - --loose-group_replication_autorejoin_tries=2016
+      - --loose-group_replication_local_address=mysql3:33061
+      - --loose-group_replication_group_seeds=mysql1:33061,mysql2:33061,mysql3:33061
+      - --max-connections=500
+    volumes:
+      - mysql3-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p1234 --silent" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - backend
+    restart: unless-stopped
+
+  # Bootstrap del clúster usando MySQL Shell conectado remotamente
+  cluster-setup:
+    image: mysql:8.0
+    depends_on:
+      mysql1:
+        condition: service_healthy
+      mysql2:
+        condition: service_healthy
+      mysql3:
+        condition: service_healthy
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      APP_DB: "appdb"
+      APP_USER: "app"
+      APP_PASSWORD: "1234"
+      PREFERRED_PRIMARY: "mysql1:3306"
+    volumes:
+      - ./mysql/init-cluster.js:/tmp/init-cluster.js:ro
+    command:
+      - mysqlsh
+      - --no-wizard
+      - --js
+      - root:1234@mysql1:3306
+      - -f
+      - /tmp/init-cluster.js
+    networks:
+      - backend
+    restart: "no"
+
+  # Configure cluster advanced policies (failback preference, weights, etc)
+  cluster-policies:
+    image: mysql:8.0
+    depends_on:
+      cluster-setup:
+        condition: service_completed_successfully
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      PREFERRED_PRIMARY: "mysql1:3306"
+    volumes:
+      - ./mysql/configure-policies.js:/tmp/configure-policies.js:ro
+    command: [ "bash", "-c", "sleep 5; mysqlsh root:$$MYSQL_ROOT_PASSWORD@mysql1:3306 --no-wizard --js -f /tmp/configure-policies.js" ]
+    networks:
+      - backend
+    restart: "no"
+
+  # Cluster Monitor - Auto-healing and recovery service
+  cluster-monitor:
+    image: mysql:8.0
+    depends_on:
+      cluster-setup:
+        condition: service_completed_successfully
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MONITOR_INTERVAL: "10" # Check cluster every 10 seconds for faster failback
+      PREFERRED_PRIMARY: "mysql1:3306"
+      MONITOR_INITIAL_DELAY: "25"
+      POLICY_ENFORCEMENT_INTERVAL: "45"
+    volumes:
+      - ./mysql/cluster-monitor.py:/tmp/cluster-monitor.py:ro
+      - router-conf:/router-state # Acceso directo al volumen del Router para actualizar state.json
+    command:
+      - "bash"
+      - "-c"
+      - |
+        while true; do
+          for host in mysql1 mysql2 mysql3; do
+            if mysqladmin ping -h "$$host" -u root -p"$$MYSQL_ROOT_PASSWORD" --silent; then
+              echo "Starting monitor connected to $$host..."
+              exec mysqlsh "root:$$MYSQL_ROOT_PASSWORD@$$host:3306" --no-wizard --py -f /tmp/cluster-monitor.py
+            fi
+          done
+          echo "No reachable nodes, waiting..."
+          sleep 5
+        done
+    networks:
+      - backend
+    restart: unless-stopped
+
+  # Bootstrap del Router para generar la configuración en un volumen
+  router-bootstrap:
+    image: mysql/mysql-router:8.0
+    depends_on:
+      cluster-setup:
+        condition: service_completed_successfully
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    volumes:
+      - router-conf:/work
+    user: "0:0"
+    command: [ "bash", "-c", "echo 'Bootstrap de MySQL Router...'; chmod 777 /work; mysqlrouter --bootstrap root:$$MYSQL_ROOT_PASSWORD@mysql1:3306 --directory /work --user=root --force" ]
+    networks:
+      - backend
+    restart: "no"
+
+  # MySQL Router en ejecución
+  mysql-router:
+    image: mysql/mysql-router:8.0
+    depends_on:
+      router-bootstrap:
+        condition: service_completed_successfully
+    volumes:
+      - router-conf:/work
+    user: "0:0"
+    entrypoint: [ "/bin/bash" ]
+    command: [ "-c", "chmod 600 /work/*.key /work/*.pem /work/data/* 2>/dev/null || true; exec mysqlrouter --config /work/mysqlrouter.conf" ]
+    ports:
+      - "6446:6446" # RW (Classic Protocol)
+      - "6447:6447" # RO (Classic Protocol)
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/6446' || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - backend
+    restart: unless-stopped
+
+  # ------------------------------
+  # Web mínima (PHP + Apache) para probar CRUD
+  # ------------------------------
+  web:
+    build: ./web
+    container_name: web
+    ports:
+      - "8091:80"
+    environment:
+      DB_HOST: mysql-router
+      DB_PORT: "6446"
+      DB_USER: "app"
+      DB_PASSWORD: "1234"
+      DB_NAME: "appdb"
+    depends_on:
+      mysql-router:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mysql1-data:
+  mysql2-data:
+  mysql3-data:
+  router-conf:
+
+
+networks:
+  backend:
+    driver: bridge
