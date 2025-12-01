@@ -434,7 +434,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## ✍️ Autor
 
-**Joaquin** (o tu nombre/organización)
+**Joaquin Loaiza Cruz**
 Sistema de gestión de sobretiempos con cluster MySQL de alta disponibilidad.
 
 ---
